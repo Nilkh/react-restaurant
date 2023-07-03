@@ -1,5 +1,8 @@
+body{
+    /* background-color: #eee; */
+}
 header {
-    background-color: #f9f2f2;
+    background-color: #f3efef;
 }
 
 h1 {
@@ -12,7 +15,7 @@ h1 {
 }
 
 .navbar.navbar-dark.bg-dark {
-    background: linear-gradient(to right, #f9f2f2, #cfcdcf);
+    background: linear-gradient(to right, #f3efef, #cfcdcf);
     border-radius: 10px;
 
     bottom: 0px;
@@ -20,7 +23,7 @@ h1 {
 }
 
 .navbar-nav {
-    margin-left: auto;
+    margin-left: 0;
 
 }
 
@@ -33,7 +36,12 @@ h1 {
 }
 
 .navbar .navbar-nav .nav-link {
-    color: rgb(7, 7, 7);
+    color: #1e1e1e;
+    /* Set the text color of the navbar links to white */
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: rgb(247, 238, 238);
     /* Set the text color of the navbar links to white */
 }
 

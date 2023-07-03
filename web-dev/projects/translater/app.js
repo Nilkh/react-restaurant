@@ -5,6 +5,7 @@ $(document).ready(() => {
     const $loginLogo = $('#loginLogo')
 	const $fileButton = $('#btnradio2')
 	const $textButton = $('#btnradio1')
+	
 
 
 	const url = `https://text-translator2.p.rapidapi.com/translate`;
@@ -41,6 +42,7 @@ $(document).ready(() => {
 
 	hiddenElements();
 	onClickButtons();
+	// extractText();
 
 
     function hiddenElements(){
@@ -52,6 +54,7 @@ $(document).ready(() => {
 	 
      
     function onClickButtons(){
+
       $loginLogo.on('click', (e) => {
 		    e.preventDefault()
 		    $('#switchTextToFile').hide()
@@ -79,10 +82,56 @@ $(document).ready(() => {
 
 	    });
 
-    }
+		
+
+    };
+
+	 extractText.on('click',() => {
+		const fileInput = document.getElementById('formFileLg')
+		const file = fileInput.files[0]
+
+		if (file) {
+			const fileReader = new FileReader()
+
+			fileReader.onload = function () {
+				const typedArray = new Uint8Array(this.result)
+
+				// Load the PDF file using PDF.js
+				pdfjsLib.getDocument(typedArray).promise.then(function (pdf) {
+					const textContainer = document.getElementById('text-container')
+					textContainer.textContent = '' // Clear previous content
+
+					const numPages = pdf.numPages
+					const pagePromises = []
+
+					// Extract text from each page
+					for (let i = 1; i <= numPages; i++) {
+						pagePromises.push(
+							pdf.getPage(i).then(function (page) {
+								return page.getTextContent().then(function (textContent) {
+									const textItems = textContent.items.map(function (item) {
+										return item.str
+									})
+
+									const text = textItems.join(' ')
+									textContainer.textContent += text + '\n'
+								})
+							})
+						)
+					}
+
+					Promise.all(pagePromises).then(function () {
+						console.log('Text extraction complete.')
+					})
+				})
+			}
+
+			fileReader.readAsArrayBuffer(file)
+		}
+	 })
+
+		
 
 
-
-
-})
+});
   
