@@ -1,21 +1,17 @@
 $(document).ready(() => {
-    const outputText = $('#output-text')
-    const myButton = $('#myButton')
-    const $switchKey= $('#switchTextToFile')
-    const $loginLogo = $('#loginLogo')
+	const outputText = $('#output-text')
+	const myButton = $('#myButton')
+	const $switchKey = $('#switchTextToFile')
+	const $loginLogo = $('#loginLogo')
 	const $fileButton = $('#btnradio2')
 	const $textButton = $('#btnradio1')
-	
 
+	const url = `https://text-translator2.p.rapidapi.com/translate`
 
-	const url = `https://text-translator2.p.rapidapi.com/translate`;
+	myButton.on('click', () => {
+		const inputText = $('#input-text').val()
 
-		myButton.on('click', () => {
-		 const inputText = $('#input-text').val()
-		 
-        
-		 
-          const options = {
+		const options = {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/x-www-form-urlencoded',
@@ -25,80 +21,68 @@ $(document).ready(() => {
 			body: new URLSearchParams({
 				source_language: 'en',
 				target_language: 'fa',
-				text: inputText ,
+				text: inputText,
 			}),
-		 };
-			fetch(url ,options) // this is the API call 
-			   .then((res) => res.json())//output of API
-			   .then((res) => {
+		}
+		fetch(url, options) // this is the API call
+			.then((res) => res.json()) //output of API
+			.then((res) => {
 				let translate = res.data.translatedText
 				outputText.append(res.data.translatedText)
-				
 			})
-				
-				.catch((err) => console.log(err))
-		});
 
+			.catch((err) => console.log(err))
+	})
 
-	hiddenElements();
-	onClickButtons();
+	hiddenElements()
+	onClickButtons()
 	// extractText();
 
+	function hiddenElements() {
+		$('#loginInfo').hide()
+		//  $('#formFileLg').hide();
+		$('#changeFormFileLg').hide()
+	}
 
-    function hiddenElements(){
-     $('#loginInfo').hide()
-	//  $('#formFileLg').hide()
-	 $('#changeFormFileLg').hide()
-	
-    };
-	 
-     
-    function onClickButtons(){
-
-      $loginLogo.on('click', (e) => {
-		    e.preventDefault()
-		    $('#switchTextToFile').hide()
+	function onClickButtons() {
+		$loginLogo.on('click', (e) => {
+			e.preventDefault()
+			$('#switchTextToFile').hide()
 			// $('#formFileLg').hide()
 			$('#btn').hide()
 			$('#changeFormFileLg').hide()
-	 	    $('#loginInfo').show()
-        });
-
+			$('#loginInfo').show()
+		})
 
 		$fileButton.on('click', (e) => {
 			e.preventDefault()
 			$('#switchTextToFile').hide()
 			// $('#formFileLg').show()
 			$('#changeFormFileLg').show()
-		});
+		})
 
-     
-
-	  $textButton.on('click', (e) => {
-		    e.preventDefault()
+		$textButton.on('click', (e) => {
+			e.preventDefault()
 			$('#changeFormFileLg').hide()
 			$('#switchTextToFile').show()
-			 
+		})
+	}
 
-	    });
-
-		
-
-    };
-
-	 extractText.on('click',() => {
-		const fileInput = document.getElementById('formFileLg')
+	$('#extract-text-button').on('click', (e) => {
+		e.preventDefault()
+		const fileInput = $('#formFileLg')[0]
 		const file = fileInput.files[0]
-
+		console.log(file, fileInput)
 		if (file) {
 			const fileReader = new FileReader()
 
 			fileReader.onload = function () {
 				const typedArray = new Uint8Array(this.result)
 
-				// Load the PDF file using PDF.js
+				//  function in PDF.js Load the PDF file using PDF.js. represents the PDF file data.
+				// pdfjsLib.GlobalWorkerOptions.workerSrc = 'path/to/pdf.worker.js'
 				pdfjsLib.getDocument(typedArray).promise.then(function (pdf) {
-					const textContainer = document.getElementById('text-container')
+					const textContainer = $('#text-container')
 					textContainer.textContent = '' // Clear previous content
 
 					const numPages = pdf.numPages
@@ -114,7 +98,7 @@ $(document).ready(() => {
 									})
 
 									const text = textItems.join(' ')
-									textContainer.textContent += text + '\n'
+									textContainer.text(textContainer.text() + text + '\n')
 								})
 							})
 						)
@@ -122,16 +106,18 @@ $(document).ready(() => {
 
 					Promise.all(pagePromises).then(function () {
 						console.log('Text extraction complete.')
+						//  displayExtractedText(textContainer.textContent)
 					})
 				})
 			}
 
 			fileReader.readAsArrayBuffer(file)
 		}
-	 })
+	})
 
-		
-
-
+	// function displayExtractedText(text) {
+	// 	const outputContainer =$('#output-container')
+	// 	outputContainer.textContent = text
+	// }
 });
   

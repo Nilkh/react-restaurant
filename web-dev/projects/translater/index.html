@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="app.js"></script>
-    <!-- <script src="path/to/pdf.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.min.js"></script>
 
 </head>
 
@@ -155,13 +155,13 @@
 <section id="changeFormFileLg">
     <div class="card d-lg-inline-block list-group-horizontal-xxl">
         <div class="card-body">
-            <br>
-            <br>
-            <label for="formFileLg" class="form-label"></label>
-            <input class="form-control form-control-lg" id="formFileLg" type="file">
-            <input id="extract-text-button" type="button" value="Extract Text" onclick="extractText()">
-            <div id="text-container"></div>
-
+            <form>
+              <label for="formFileLg" class="form-label"></label>
+              <input class="form-control form-control-lg" id="formFileLg" type="file">
+              <button id="extract-text-button">extract text</button>
+              <div id="text-container"></div>
+            <div id="output-container"></div>
+           </form>
         </div>
     </div>
    
