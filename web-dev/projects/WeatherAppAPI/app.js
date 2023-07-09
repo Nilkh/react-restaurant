@@ -10,7 +10,7 @@ $(document).ready(() => {
 	submitButton.on('click', (e) => {
 		e.preventDefault()
 		const location = $('#Location-input')[0].value
-		console.log(location)
+		
 
          
 
@@ -19,12 +19,11 @@ $(document).ready(() => {
 		fetch(URL)
 			.then((res) => res.json())
 			.then((res) => {
-                 console.log(res.current.temp_f)
-                displayWeatherData(location ,res)
+                // displayWeatherData(location ,res)
 
-                 const fahrenheitButton = Math.round(res.current.temp_f)
+                 const fahrenheitTemp = Math.round(res.current.temp_f)
 
-				const celsiusButton = Math.round(res.current.temp_c)
+				const celsiusTemp = Math.round(res.current.temp_c)
                 
             
                weatherList.append(
@@ -36,35 +35,48 @@ $(document).ready(() => {
                  <p> Latitude: ${res.location.lat} </p>
                  <p> Day: ${res.current.is_day} </p>`
 				)  
+
+               
             })
-			.catch((res) => console.log(res))
+			.catch((err) => console.log(err.message))
 
         })
-	function displayWeatherData(location ,res) {
-		// display.text(`It is Cold in ${location} Nilo ${res.current.temp_f}`)
-    }
-	
+	 
     
     buttonClear.on('click' ,(e) => {
         e.preventDefault()
         weatherList.text('')
     })
 
-    // fahrenheitButton.on('submit', (e) =>{
-    //     e.preventDefault()
-    //     weatherList.text(res.current.temp_f)
-    // })
 
+
+
+     celsiusButton.on('click', () => {
+				const tempElements = $('.temp-c').get()
+				tempElements.forEach(function (e) {
+				const celsiusTemp = Math.round($(e).data('celsius'))
+				$(e).text(`${celsiusTemp} °C`)
+				console.log($(e).data('celsius'))
+				})
+			})
+
+    
 
 
    
-		celsiusButton.on('click', (e) => {
-			e.preventDefault()
-			weatherList.text()
-		})
+		
+
+
+        fahrenheitButton.on('click', () => {
+					const tempElements = $('.temp-f').get()
+					tempElements.forEach(function (e) {
+						const fahrenheitTemp = Math.round($(e).data('fahrenheit'))
+						$(e).text(`${fahrenheitTemp} °F`)
+					});
+				});
    
 
-})
+});
 	
 
 
