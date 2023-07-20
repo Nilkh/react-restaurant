@@ -1,25 +1,28 @@
 import React from "react";
 import Recipes from "./Recipes";
-// import Ingredient from "./Ingredient";
-// import  Container  from "react-bootstrap/Container";
+import Container from "react-bootstrap/Container";
+import Row  from "react-bootstrap/Row";
+import Col  from "react-bootstrap/Col";
 function RecipesContainer(props){
     return (
-		<div>
-				
-            {props.RecipesData.map(item => {
-				return (
-					<div>
-						<Recipes Recipes={item.recipe} 
-						 ingredients={item.ingredients} 
-						key={`recipe-Arr-${item.recipe}`}/>
-					</div>
-				)
-			})}
-				
-		</div>
+		<Container>
+		<Row>
+			<Col>
+				{props.recipesData.map((item, i) => {
+					return (
+						<div key={`recipe-Arr-${i}`}>
+							<Recipes
+							    recipe={item.recipe}
+								ingredients={item.ingredients}
+							/>
+						</div>
+					)
+				})}
+			</Col>
+		</Row>
+		</Container>
 	)
 }
-
-export default RecipesContainer
+export default RecipesContainer;
 
   

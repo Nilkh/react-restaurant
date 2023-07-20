@@ -1,14 +1,12 @@
 import React from "react";
-import Ingredients from "./Ingredient";
+import Ingredient from "./Ingredient";
 function Recipe(props){
     return (
 			<div>
-				<h3>{props.recipe}</h3>
+				<h4>{props.recipe}</h4>
 
-				{props.ingredients.map(ingredients => {
-					return <Ingredients ingredients={ingredients} />
-						
-					
+				{props.ingredients.map((ingredient, i) => {
+					return <Ingredient key={i} ingredient={ingredient} />
 				})}
 			</div>
 		)

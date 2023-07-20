@@ -1,24 +1,27 @@
 import React from "react"
-import recipeArr from "../Data"
-import Ingredients from "./Ingredient"
-
-function IngredientsCards(){
-    // console.log(IngredientsCards)
- 
-    return(
-      
-        <div>
-            {recipeArr.map((item,index) => {
-                return (
-					<div key={index}>
-									
-						<Ingredients ingredients={item.ingredients} />
-											
-										
-					</div>
-				)
-            })}
-        </div>
-    )
+import ActiveIngredients from "../ActiveIngredients"
+import DisCartedIngredients from "../DisCartedIngredients"
+import Container from 'react-bootstrap/Container'
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+function IngredientsCards(props){
+    return (
+			<Container>
+				<Row>
+					<Col>
+						<ActiveIngredients
+							ingredients={props.ingredients}
+							removeIngredients={props.removeIngredients}
+						/>
+					</Col>
+					<Col>
+						<DisCartedIngredients
+							disCartedIngredients={props.disCartedIngredients}
+							addIngredients={props.addIngredients}
+						/>
+					</Col>
+				</Row>
+			</Container>
+		)
 }
 export default IngredientsCards;

@@ -1,4 +1,3 @@
-
 const recipeArr = [
 	{
 		recipe: 'Penne Arabiatta:',
@@ -38,8 +37,13 @@ const recipeArr = [
 
 	{
 		recipe: 'Spaghetti Alla Putanescca:',
-		ingredients: ['spaghatti', 'tomato', 'olive oil', 'anchovies', 'red chili'],
+		ingredients: [
+			'spaghatti', 
+			'tomato', 
+			'olive oil', 
+			'anchovies', 
+			'red chili'
+		],
 	},
 ]
- 
-export default recipeArr;
+ export default recipeArr;
