@@ -19,12 +19,23 @@ export function getActiveRecipes(activeIngredients,recipeArr) {
 				keepRecipe = false
 			}
 		})
-		console.log(keepRecipe)
+		// console.log(keepRecipe)
 		return keepRecipe
 	})
 }
 
 
-export function getUpdateActiveMeals(prev , item){
-    
+export function getUpdateActiveIngredients(item, activeIngredients) {
+	return activeIngredients.filter((el) => {
+		if (el === item) {
+			return false
+		} else {
+			return true
+		}
+	})
 }
+
+export function getDisCartedIngredients(activeIngredients, item) {
+	return [...activeIngredients, item]
+}
+    

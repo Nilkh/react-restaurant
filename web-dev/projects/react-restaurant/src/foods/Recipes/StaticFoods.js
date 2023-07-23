@@ -2,46 +2,47 @@ import recipeArr from "../Data";
 import RecipesContainer from "./RecipesContainer";
 import IngredientsCards from "./IngredientsCards";
 import { useState } from "react";
-import {getUniqueIngredients ,getActiveRecipes} from '../../utils'
+import {
+	getUniqueIngredients,
+	getActiveRecipes,
+	getUpdateActiveIngredients,
+	getDisCartedIngredients,
+} from '../../utils'
 
 function StaticFoods(){
-	const [activeIngredients, setActiveIngredients] = useState(
-		getUniqueIngredients(recipeArr)
-	)
+	const [activeIngredients, setActiveIngredients] = useState(getUniqueIngredients(recipeArr))
 	const [disCartedIngredients ,setDisCartedIngredients] = useState([])
 	const [activeMeals, setActiveMeals] = useState(recipeArr)
 
+
     function removeIngredients(event) {
-		const updateActiveMeals = getActiveRecipes(activeIngredients,recipeArr)
-		// console.log(updateActiveMeals)
-	  const item = event.target.value
-	  setActiveIngredients(prev =>{
-		return prev.filter(el => {
-			if(el === item){
+		const item = event.target.value
+		const updatedActiveIngredients = getUpdateActiveIngredients(item, activeIngredients)
+		const updateActiveMeals = getActiveRecipes(updatedActiveIngredients,recipeArr)
+
+	    setActiveIngredients(prev =>{
+		  return prev.filter(el => {
+			 if(el === item){
 				return false;
-			}else{
+			 }else{
 				return true;
-			}
+			  }
+		   })
 		})
-		
-	   })
-	     
+	   
 	   setDisCartedIngredients(prev =>{
-		return [...prev, item]
+		    return [...prev, item]
 	   })
-		
-	   setActiveMeals(updateActiveMeals)
-		
+		setActiveIngredients(updatedActiveIngredients)
+	    setActiveMeals(updateActiveMeals)
+		 
 	}
 
 
     function addIngredients(event) {
-		const updateActiveMeals = getActiveRecipes(activeIngredients, recipeArr)
 		const item = event.target.value
-
-		 setActiveIngredients((prev) => {
-				return [...prev, item]
-			})
+        const updatedDisCartedIngredients = getDisCartedIngredients(activeIngredients,item)
+		const updateActiveMeals = getActiveRecipes(updatedDisCartedIngredients,recipeArr)
 
 		setDisCartedIngredients((prev) =>{
 			return prev.filter((el) => {
@@ -52,38 +53,12 @@ function StaticFoods(){
 				}
 			})
 		})
-		   setActiveMeals(updateActiveMeals)
+		setActiveIngredients(updatedDisCartedIngredients)
+		setActiveMeals(updateActiveMeals)
 		
 	}
      
-	// function getUpdateActiveMeals(even){
-	// 	const item =even.target.value
-
-	// 	 setActiveIngredients((prev) => {
-	// 			return [...prev, item]
-	// 		})
-
-	// 		setActiveMeals((prev) => {
-	// 			return prev.filter((el) => {
-	// 				if (el === item) {
-	// 					return false
-	// 				} else {
-	// 					return true
-	// 				}
-	// 			})
-	// 		})
-
-
-	// 		setDisCartedIngredients((prev) => {
-	// 			return prev.filter((el) => {
-	// 				if (el === item) {
-	// 					return false
-	// 				} else {
-	// 					return true
-	// 				}
-	// 			})
-	// 		})
-	// }
+	
      
     
 
@@ -107,9 +82,6 @@ function StaticFoods(){
 				
 					disCartedIngredients={disCartedIngredients}
 					addIngredients={addIngredients}
-
-					// activeMeals={activeMeals}
-					// getUpdateActiveMeals={getUpdateActiveMeals}
 				/>
 
 				<RecipesContainer recipesData={activeMeals} />
